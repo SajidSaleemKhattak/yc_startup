@@ -31,7 +31,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        "work-sans": ["var(--font-work-sans)"],
+        "work-sans": ["var(--font-work-sans)"], // now Tailwind class is font-work-sans
       },
       borderRadius: {
         lg: "var(--radius)",

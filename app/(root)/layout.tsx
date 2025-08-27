@@ -5,7 +5,7 @@ const layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <>
       <Navbar></Navbar>
-      <main>{children}</main>
+      {children}
     </>
   );
 };
