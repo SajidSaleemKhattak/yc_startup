@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button"; // make sure you have this
 
-const StartupCard = ({ post }: { post: StartupTypeCard }) => {
+const StartupCard = ({ posts }: { posts: StartupTypeCard }) => {
   const {
     _createdAt,
     views,
@@ -14,13 +14,13 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     _id,
     image,
     description,
-  } = post;
+  } = posts;
 
   return (
     <li className="startup-card group">
       {/* Top section with date and views */}
       <div className="flex-between">
-        <p className="startup_card_date">{formatDate(_createdAt)}</p>
+        <p className="startup_card_date">{_createdAt}</p>
         <div className="flex gap-1.5">
           <EyeIcon className="size-6 text-primary" />
           <span className="text-16-medium">{views}</span>

@@ -1,7 +1,8 @@
 import SearchForm from "@/components/SearchForm";
 import StartupCard from "@/components/StartupCard";
-import Image from "next/image";
 import React from "react";
+import { client } from "@/sanity/lib/client";
+import { STARTUP_QUERY } from "@/sanity/lib/queries";
 
 const page = async ({
   searchParams,
@@ -9,18 +10,11 @@ const page = async ({
   searchParams: Promise<{ querry?: string }>;
 }) => {
   const querry = (await searchParams).querry;
-  const posts = [
-    {
-      _createdAt: new Date(),
-      views: 55,
-      author: { _id: 1, name: "Sajid" }, // Changed from 'authhor' to 'author'
-      _id: 1,
-      description: "This is a sample descripition",
-      image: "https://images.unsplash.com/photo-1527430253228-e93688616381?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      category: "Robots",
-      title: "We Robots",
-    },
-  ];
+
+  const posts = await client.fetch(STARTUP_QUERY);
+
+  console.log(JSON.stringify(posts, null, 2));
+
   return (
     <>
       <section className="pink_container">
@@ -44,10 +38,10 @@ const page = async ({
           {posts?.length > 0 ? (
             posts.map(
               (
-                post: StartupCardType,
+                posts: StartupCardType,
                 index: number // Changed 'posts' to 'post'
               ) => (
-                <StartupCard key={post._id} post={post}></StartupCard> // Changed 'posts' to 'post'
+                <StartupCard key={index} posts={posts}></StartupCard> // Changed 'posts' to 'post'
               )
             )
           ) : (
