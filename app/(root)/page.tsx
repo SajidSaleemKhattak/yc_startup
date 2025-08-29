@@ -39,9 +39,9 @@ const page = async ({
             posts.map(
               (
                 posts: StartupCardType,
-                index: number // Changed 'posts' to 'post'
+                index: number 
               ) => (
-                <StartupCard key={index} posts={posts}></StartupCard> // Changed 'posts' to 'post'
+                <StartupCard key={index} posts={posts}></StartupCard>
               )
             )
           ) : (

@@ -2,11 +2,16 @@
   "name": "startup_yc",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "sanity:extract": "sanity schema extract --path=./sanity/extract.json",
     "dev": "next dev",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "predev": "npm run typegen",
+    "prebuild": "npm run typegen",
+    "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -21,7 +26,7 @@
     "next-sanity": "^10.1.0-canary.12",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "sanity": "^4.6.0",
+    "sanity": "^4.5.0",
     "sanity-plugin-markdown": "^6.0.0",
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.3.1",
