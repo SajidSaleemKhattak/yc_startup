@@ -1,9 +1,9 @@
 import SearchForm from "@/components/SearchForm";
 import StartupCard from "@/components/StartupCard";
 import React from "react";
-import { client } from "@/sanity/lib/client";
+// import { client } from "@/sanity/lib/client"; we needed that only to fetch the not-LIVE data 
 import { STARTUP_QUERY } from "@/sanity/lib/queries";
-
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 const page = async ({
   searchParams,
 }: {
@@ -11,7 +11,8 @@ const page = async ({
 }) => {
   const querry = (await searchParams).querry;
 
-  const posts = await client.fetch(STARTUP_QUERY);
+  // const posts = await client.fetch(STARTUP_QUERY); now we will use the below for live fetch
+  const { data: posts } = await sanityFetch({ query: STARTUP_QUERY });
 
   console.log(JSON.stringify(posts, null, 2));
 
@@ -36,19 +37,15 @@ const page = async ({
         </p>
         <ul className="mt-7 card_grid">
           {posts?.length > 0 ? (
-            posts.map(
-              (
-                posts: StartupCardType,
-                index: number 
-              ) => (
-                <StartupCard key={index} posts={posts}></StartupCard>
-              )
-            )
+            posts.map((posts: StartupTypeCard, index: number) => (
+              <StartupCard key={index} posts={posts}></StartupCard>
+            ))
           ) : (
             <p className="no-result">No results found</p>
           )}
         </ul>
       </section>
+  <SanityLive></SanityLive>
     </>
   );
 };

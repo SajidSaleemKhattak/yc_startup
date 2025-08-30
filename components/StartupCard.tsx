@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button"; 
 import {Author, Startup} from "@/sanity/types";
 
-export type StartupCard = Omit<Startup,"author"> & {author?: Author}
+export type StartupTypeCard = Omit<Startup,"author"> & {author?: Author}
 
 const StartupCard = ({ posts }: { posts: StartupTypeCard }) => {
   const {
@@ -44,7 +44,7 @@ const StartupCard = ({ posts }: { posts: StartupTypeCard }) => {
         <Link href={`/user/${author?._id}`}>
           <Image
             src={image || "https://placehold.co/600x400"}
-            alt={name}
+            alt={author?.name}
             width={48}
             height={48}
             className="rounded-full"
