@@ -9,6 +9,9 @@ export const startup = defineType({
     {
       name: "title",
       type: "string",
+    },  {
+      name: "id",
+      type: "number",
     },
     {
       name: "slug",

@@ -16,9 +16,11 @@ const StartupCard = ({ posts }: { posts: StartupTypeCard }) => {
     category,
     _id,
     image,
+    slug,
     description,
   } = posts;
 
+  console.log(posts);
   return (
     <li className="startup-card group">
       {/* Top section with date and views */}
@@ -69,7 +71,7 @@ const StartupCard = ({ posts }: { posts: StartupTypeCard }) => {
           <p className="text-16-medium">{category}</p>
         </Link>
         <Button className="startup-card_btn" asChild>
-          <Link href={`/startup/${_id}`}>Details</Link>
+          <Link href={`/startup/${slug!.current}`}>Details</Link>
         </Button>
       </div>
     </li>
