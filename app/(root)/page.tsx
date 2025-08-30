@@ -1,7 +1,7 @@
 import SearchForm from "@/components/SearchForm";
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 import React from "react";
-// import { client } from "@/sanity/lib/client"; we needed that only to fetch the not-LIVE data 
+// import { client } from "@/sanity/lib/client"; we needed that only to fetch the not-LIVE data
 import { STARTUP_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 const page = async ({
@@ -11,10 +11,11 @@ const page = async ({
 }) => {
   const querry = (await searchParams).querry;
 
+  const params = { search: querry || null };
   // const posts = await client.fetch(STARTUP_QUERY); now we will use the below for live fetch
-  const { data: posts } = await sanityFetch({ query: STARTUP_QUERY });
+  const { data: posts } = await sanityFetch({ query: STARTUP_QUERY, params });
 
-  console.log(JSON.stringify(posts, null, 2));
+  // console.log(JSON.stringify(posts, null, 2));
 
   return (
     <>
@@ -45,7 +46,7 @@ const page = async ({
           )}
         </ul>
       </section>
-  <SanityLive></SanityLive>
+      <SanityLive></SanityLive>
     </>
   );
 };
