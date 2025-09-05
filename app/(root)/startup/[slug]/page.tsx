@@ -1,8 +1,69 @@
+import Link from "next/link";
+import Image from "next/image";
 import React from "react";
-export const experimental_ppr =true;
-const page = async ({ params }: {params : Promise <{slug:string}>}) => {
-  const slug = (await params).slug
-  return <div>{slug}</div>;
+import { client } from "@/sanity/lib/client";
+import { STARTUP_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import markdownit from "markdown-it";
+
+const md = markdownit();
+
+// export const experimental_ppr = true;
+const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const slug = (await params).slug;
+  console.log(slug);
+  const post = await client.fetch(STARTUP_BY_SLUG_QUERY, { slug });
+  // console.log("FROM the startup details" , post)
+  // console.log(post._createdAt)
+
+  const parsedContent = md.render(post.pitch || "");
+  return (
+    <>
+      <section className="pink_container !min-h-[230px]">
+        <p className="tag">{post?._createdAt}</p>
+        <h1 className="heading">{post.title}</h1>
+        <p className="sub-heading !max-w-5xl">{post.description}</p>
+      </section>
+      <section className="section_container">
+        <img
+          src={post.image}
+          alt="thumbnail"
+          className="w-full h-auto rounded-xl"
+        />
+        <div className="space-y-5 mt-10 max-w-4xl mx-auto">
+          <div className="flex-between gap-5">
+            <Link href={`/user/${post.author?._id}`}>
+              <Image
+                src={post.author?.image || "/default-avatar.png"}
+                alt="avatar"
+                width={64}
+                height={64}
+                className="rounded-full drop-shadow-lg"
+              ></Image>
+            </Link>
+            <p className="text-20-medium">
+              {post.author?.name || "author-name"}
+            </p>
+            <p className="text-20-medium !text-black-300">
+              @{post.author?.username || "author-@"}
+            </p>
+            <p className="category-tag">{post.category || "category"}</p>
+          </div>
+          <h3 className="pitch-details">Pitch Details</h3>
+          {parsedContent ? (
+            <article
+              className="prose max-w-4xl font-work-sans break-all"
+              dangerouslySetInnerHTML={{ __html: parsedContent }}
+            />
+          ) : (
+            <p className="no-result">No details provided</p>
+          )}
+        </div>
+        <hr className="divider" />
+
+        {/* EDITOR SELECTED STARTUPS */}
+      </section>
+    </>
+  );
 };
 
 export default page;
@@ -20,6 +81,10 @@ Exactly ✅ — your understanding is spot on! Let me clarify and tweak your exp
 
 1️⃣ The code:
 import React from "react";
+import { client } from './../../../../sanity/lib/client';
+import { Link } from 'next/link';
+import { author } from './../../../../sanity/schemaTypes/author';
+import { Image } from 'next/image';
 
 interface PageProps {
   params: { id: string };

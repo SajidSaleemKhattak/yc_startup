@@ -4,6 +4,7 @@ import React from "react";
 // import { client } from "@/sanity/lib/client"; we needed that only to fetch the not-LIVE data
 import { STARTUP_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import { auth } from "@/auth";
 const page = async ({
   searchParams,
 }: {
@@ -14,8 +15,9 @@ const page = async ({
   const params = { search: querry || null };
   // const posts = await client.fetch(STARTUP_QUERY); now we will use the below for live fetch
   const { data: posts } = await sanityFetch({ query: STARTUP_QUERY, params });
-
-  // console.log(JSON.stringify(posts, null, 2));
+const session = await auth()
+console.log(session?.id)
+// console.log(JSON.stringify(posts, null, 2));
 
   return (
     <>

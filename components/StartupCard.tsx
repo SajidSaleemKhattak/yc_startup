@@ -20,7 +20,7 @@ const StartupCard = ({ posts }: { posts: StartupTypeCard }) => {
     description,
   } = posts;
 
-  console.log(posts);
+  // console.log(posts);
   return (
     <li className="startup-card group">
       {/* Top section with date and views */}
