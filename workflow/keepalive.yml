@@ -1,0 +1,30 @@
+name: Keep Repository Active
+
+on:
+  schedule:
+    # Runs every day at 00:00 UTC (adjust cron as desired)
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # Allows manual triggering
+
+permissions:
+  contents: write      # Grants write access to repository contents
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update timestamp file
+        run: |
+          echo "Last automated update: $(date -u)" > last_update.txt
+          # Optionally add more meaningful changes (e.g., append to a log)
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add last_update.txt
+          git commit -m "Automated keepalive commit $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || exit 0
+          git push
